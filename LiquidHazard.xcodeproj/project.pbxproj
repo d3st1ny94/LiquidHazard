@@ -10,9 +10,6 @@
 		A7D8F7D91D1DB30F001BD2C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7031D1DB30F001BD2C7 /* AppDelegate.swift */; };
 		A7D8F7DA1D1DB30F001BD2C7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F7041D1DB30F001BD2C7 /* LaunchScreen.xib */; };
 		A7D8F7DB1D1DB30F001BD2C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F7061D1DB30F001BD2C7 /* Main.storyboard */; };
-		A7D8F7DC1D1DB30F001BD2C7 /* Box2D.vcxproj in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F70A1D1DB30F001BD2C7 /* Box2D.vcxproj */; };
-		A7D8F7DD1D1DB30F001BD2C7 /* Box2D.vcxproj.filters in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F70B1D1DB30F001BD2C7 /* Box2D.vcxproj.filters */; };
-		A7D8F7DF1D1DB30F001BD2C7 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F70D1D1DB30F001BD2C7 /* CMakeLists.txt */; };
 		A7D8F7E01D1DB30F001BD2C7 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F70F1D1DB30F001BD2C7 /* b2BroadPhase.cpp */; };
 		A7D8F7E11D1DB30F001BD2C7 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7111D1DB30F001BD2C7 /* b2CollideCircle.cpp */; };
 		A7D8F7E21D1DB30F001BD2C7 /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7121D1DB30F001BD2C7 /* b2CollideEdge.cpp */; };
@@ -66,7 +63,6 @@
 		A7D8F8571D1DB30F001BD2C7 /* b2ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7C91D1DB30F001BD2C7 /* b2ParticleSystem.cpp */; };
 		A7D8F8581D1DB30F001BD2C7 /* b2VoronoiDiagram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7CC1D1DB30F001BD2C7 /* b2VoronoiDiagram.cpp */; };
 		A7D8F8591D1DB30F001BD2C7 /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7CF1D1DB30F001BD2C7 /* b2Rope.cpp */; };
-		A7D8F85A1D1DB30F001BD2C7 /* UseBox2D.cmake in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F7D11D1DB30F001BD2C7 /* UseBox2D.cmake */; };
 		A7D8F85B1D1DB30F001BD2C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F7D31D1DB30F001BD2C7 /* Images.xcassets */; };
 		A7D8F85D1D1DB30F001BD2C7 /* LiquidFun.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7D61D1DB30F001BD2C7 /* LiquidFun.mm */; };
 		A7D8F85E1D1DB30F001BD2C7 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7D71D1DB30F001BD2C7 /* Shaders.metal */; };
@@ -501,11 +497,7 @@
 				A7D8F85B1D1DB30F001BD2C7 /* Images.xcassets in Resources */,
 				A7D8F7DA1D1DB30F001BD2C7 /* LaunchScreen.xib in Resources */,
 				A7D8F8611D1DB4D9001BD2C7 /* Default-568h@2x.png in Resources */,
-				A7D8F7DF1D1DB30F001BD2C7 /* CMakeLists.txt in Resources */,
-				A7D8F7DD1D1DB30F001BD2C7 /* Box2D.vcxproj.filters in Resources */,
 				A7D8F7DB1D1DB30F001BD2C7 /* Main.storyboard in Resources */,
-				A7D8F7DC1D1DB30F001BD2C7 /* Box2D.vcxproj in Resources */,
-				A7D8F85A1D1DB30F001BD2C7 /* UseBox2D.cmake in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
