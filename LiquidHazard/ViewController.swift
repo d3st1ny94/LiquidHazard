@@ -12,7 +12,7 @@ import CoreMotion
 class ViewController: UIViewController {
   
   let gravity: Float = 9.80665
-  let ptmRatio: Float = 32.0
+  let ptmRatio: Float = 64.0
   let particleRadius: Float = 9
   var particleSystem: UnsafeMutablePointer<Void>!
     var uniformBuffer: MTLBuffer! = nil
@@ -43,6 +43,11 @@ class ViewController: UIViewController {
     
     LiquidFun.createEdgeBoxWithOrigin(Vector2D(x: 0, y: 0),
         size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
+    /*
+     //should probably be assigned to an unsafemutablepointer so we can further use it (drawing or other)
+     LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
+     size: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
+     */
     
     createMetalLayer()
     refreshVertexBuffer()

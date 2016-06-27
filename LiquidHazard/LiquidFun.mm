@@ -73,6 +73,20 @@ positionIterations:(int)positionIterations {
     
     return body;
 }
++ (void *)createEdgeWithOrigin:(Vector2D)origin size:(Vector2D)endpoint {
+    // create the body
+    b2BodyDef bodyDef;
+    bodyDef.position.Set(origin.x, origin.y);
+    b2Body *body = world->CreateBody(&bodyDef);
+    
+    // create edge
+    b2EdgeShape shape;
+    shape.Set(b2Vec2(origin.x, origin.y), b2Vec2(endpoint.x, endpoint.y));
+    body->CreateFixture(&shape, 0);
+    
+    //return body
+    return body;
+}
 
 + (void)setParticleLimitForSystem:(void *)particleSystem maxParticles:(int)maxParticles {
     ((b2ParticleSystem *)particleSystem)->SetDestructionByAge(true);
