@@ -73,7 +73,7 @@ positionIterations:(int)positionIterations {
     
     return body;
 }
-+ (void *)createEdgeWithOrigin:(Vector2D)origin size:(Vector2D)endpoint {
++ (void *)createEdgeWithOrigin:(Vector2D)origin destination:(Vector2D)endpoint {
     // create the body
     b2BodyDef bodyDef;
     bodyDef.position.Set(origin.x, origin.y);

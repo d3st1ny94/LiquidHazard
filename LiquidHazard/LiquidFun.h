@@ -33,7 +33,7 @@ typedef struct Size2D {
 + (void)worldStep:(CFTimeInterval)timeStep velocityIterations:(int)velocityIterations
 positionIterations:(int)positionIterations;
 + (void *)createEdgeBoxWithOrigin:(Vector2D)origin size:(Size2D)size;
-+ (void *)createEdgeWithOrigin:(Vector2D)origin size:(Vector2D)endpoint;
++ (void *)createEdgeWithOrigin:(Vector2D)origin destination:(Vector2D)endpoint;
 + (void)setGravity:(Vector2D)gravity;
 + (void)setParticleLimitForSystem:(void *)particleSystem maxParticles:(int)maxParticles;
 

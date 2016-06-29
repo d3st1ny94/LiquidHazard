@@ -13,7 +13,7 @@ class ViewController: UIViewController {
   
   let gravity: Float = 9.80665
   let ptmRatio: Float = 64.0
-  let particleRadius: Float = 9
+  let particleRadius: Float = 5
   var particleSystem: UnsafeMutablePointer<Void>!
     var uniformBuffer: MTLBuffer! = nil
     let motionManager: CMMotionManager = CMMotionManager()
@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     LiquidFun.createWorldWithGravity(Vector2D(x: 0, y: -gravity))
     particleSystem = LiquidFun.createParticleSystemWithRadius(particleRadius / ptmRatio, dampingStrength: 0.2, gravityScale: 1, density: 1.2)
     
-    LiquidFun.setParticleLimitForSystem(particleSystem, maxParticles: 750)
+    LiquidFun.setParticleLimitForSystem(particleSystem, maxParticles: 1500)
     
     let screenSize: CGSize = UIScreen.mainScreen().bounds.size
     let screenWidth = Float(screenSize.width)
@@ -44,9 +44,8 @@ class ViewController: UIViewController {
     LiquidFun.createEdgeBoxWithOrigin(Vector2D(x: 0, y: 0),
         size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
     /*
-     //should probably be assigned to an unsafemutablepointer so we can further use it (drawing or other)
      LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
-     size: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
+     destination: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
      */
     
     createMetalLayer()
