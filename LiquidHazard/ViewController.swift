@@ -17,12 +17,13 @@ class ViewController: UIViewController {
   var particleSystem: UnsafeMutablePointer<Void>!
     var uniformBuffer: MTLBuffer! = nil
     let motionManager: CMMotionManager = CMMotionManager()
-    
     var device: MTLDevice! = nil
     var metalLayer: CAMetalLayer! = nil
     
     var particleCount: Int = 0
     var vertexBuffer: MTLBuffer! = nil
+    
+    var GridMember: Grid?
     
     var pipelineState: MTLRenderPipelineState! = nil
     var commandQueue: MTLCommandQueue! = nil
@@ -43,6 +44,8 @@ class ViewController: UIViewController {
     
     LiquidFun.createEdgeBoxWithOrigin(Vector2D(x: 0, y: 0),
         size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
+    
+    GridMember = Grid(NumberOfCols: 16, NumberOfRows: 16, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
     /*
      LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
      destination: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
