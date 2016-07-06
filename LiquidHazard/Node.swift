@@ -29,10 +29,12 @@ class Node  {
         
     }
     
-    func gridLocation() -> Vector2D{
-        
-       return Vector2D(x:  Float(gridx) * NodeSize.width, y: Float(gridy) * NodeSize.height)
-        
+    func gridLocation() -> [Float]{
+        let ret:[Float] =   [Float(gridx-1)*NodeSize.width, Float(gridy) * NodeSize.height, 0,
+                            Float(gridx - 1)*NodeSize.width, Float(gridy - 1)*NodeSize.height, 0,
+                            Float(gridx)*NodeSize.width, Float(gridy - 1)*NodeSize.height, 0,
+                            Float(gridx)*NodeSize.width, Float(gridy)*NodeSize.height, 0]
+        return ret
     }
     
     

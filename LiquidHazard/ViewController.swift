@@ -22,10 +22,12 @@ class ViewController: UIViewController {
     
     var particleCount: Int = 0
     var vertexBuffer: MTLBuffer! = nil
+    var secondBuffer: MTLBuffer! = nil
     
     var GridMember: Grid?
     
     var pipelineState: MTLRenderPipelineState! = nil
+    var pipelineWallState: MTLRenderPipelineState! = nil
     var commandQueue: MTLCommandQueue! = nil
   
   override func viewDidLoad() {
@@ -46,13 +48,18 @@ class ViewController: UIViewController {
         size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
     
     GridMember = Grid(NumberOfCols: 16, NumberOfRows: 16, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
-    /*
+    
      LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
      destination: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
-     */
+ 
     
     createMetalLayer()
+    let vData:[Float] = [-1.0, -1.0, 0.0,
+                        1.0, 1.0, 0.0]
+    let vSize = vData.count * sizeofValue(vData[0])
+    secondBuffer = device?.newBufferWithBytes(vData, length: vSize, options: [])
     refreshVertexBuffer()
+
     refreshUniformBuffer()
     buildRenderPipeline()
     render()
@@ -159,8 +166,8 @@ class ViewController: UIViewController {
     func buildRenderPipeline() {
         // 1
         let defaultLibrary = device.newDefaultLibrary()
-        let fragmentProgram = defaultLibrary?.newFunctionWithName("basic_fragment")
-        let vertexProgram = defaultLibrary?.newFunctionWithName("particle_vertex")
+        var fragmentProgram = defaultLibrary?.newFunctionWithName("basic_fragment")
+        var vertexProgram = defaultLibrary?.newFunctionWithName("particle_vertex")
         
         // 2
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
@@ -173,6 +180,23 @@ class ViewController: UIViewController {
         } catch {
             print("Error occurred when creating render pipeline state: \(error)");
         }
+        fragmentProgram = defaultLibrary!.newFunctionWithName("wall_fragment")
+        vertexProgram = defaultLibrary!.newFunctionWithName("basic_vertex")
+        
+        // 2
+        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
+        pipelineStateDescriptor.vertexFunction = vertexProgram
+        pipelineStateDescriptor.fragmentFunction = fragmentProgram
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = .BGRA8Unorm
+        
+        // 3
+        do{
+            pipelineWallState = try device.newRenderPipelineStateWithDescriptor(pipelineStateDescriptor)
+        } catch {
+            
+        }
+        
+        
         
         // 3
         commandQueue = device.newCommandQueue()
@@ -195,8 +219,10 @@ class ViewController: UIViewController {
             renderEncoder.setRenderPipelineState(pipelineState)
             renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
             renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, atIndex: 1)
-            
+            renderEncoder.setVertexBuffer(secondBuffer, offset: 0, atIndex: 2)
             renderEncoder.drawPrimitives(.Point, vertexStart: 0, vertexCount: particleCount, instanceCount: 1)
+            renderEncoder.setRenderPipelineState(pipelineWallState)
+            renderEncoder.drawPrimitives(.Line, vertexStart: 0, vertexCount: 2)
             renderEncoder.endEncoding()
             
             
