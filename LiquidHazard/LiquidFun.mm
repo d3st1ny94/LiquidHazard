@@ -16,7 +16,20 @@ static b2World *world;
 + (void)createWorldWithGravity:(Vector2D)gravity {
   world = new b2World(b2Vec2(gravity.x, gravity.y));
 }
-
++ (void *)createGoalWithSizeAndOrigin:(Size2D)size origin:(Vector2D)origin{
+    // create the body
+    b2BodyDef bodyDef;
+    bodyDef.position.Set(origin.x, origin.y);
+    b2Body *body = world->CreateBody(&bodyDef);
+    
+    // create edge
+    b2PolygonShape shape;
+    shape.SetAsBox(size.width, size.height);
+    body->CreateFixture(&shape, 0);
+    
+    //return body
+    return body;
+}
 + (void *)createParticleSystemWithRadius:(float)radius dampingStrength:(float)dampingStrength gravityScale:(float)gravityScale density:(float)density {
   b2ParticleSystemDef particleSystemDef;
   particleSystemDef.radius = radius;

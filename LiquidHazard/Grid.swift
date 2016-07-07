@@ -36,18 +36,13 @@ class Grid {
         
     } // end of forloop
     
-    func getVertexData()-> [Float] {
-        var ret = Array<Float>()
+    func getVertexData()-> [[Float]] {
+        var ret = Array<Array<Float>>()
         
         for i in 1...NodeGrid.count
         {
-            for e in 1...NodeGrid[i].count {
-            var _temp = NodeGrid[i][e].gridLocation()
-                
-                for j in 1..._temp.count{
-                ret.append(_temp[j])
-                    
-                }
+            for e in 1...NodeGrid[i-1].count {
+            ret.append(NodeGrid[i-1][e-1].gridLocation())
             }
         }
         return ret

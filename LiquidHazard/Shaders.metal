@@ -35,11 +35,15 @@ vertex VertexOut particle_vertex(const device packed_float2* vertex_array [[buff
 fragment half4 basic_fragment() {
     return half4(0.0, 0.0, 1.0, 1.0);
 }
-vertex float4 basic_vertex(
-    const device packed_float3* vertex_array [[ buffer(2) ]],
-    unsigned int vid [[ vertex_id ]]) {
-        return float4(vertex_array[vid], 1.0);
-    }
+vertex VertexOut basic_vertex(const device packed_float3* vertex_array [[buffer(2)]],
+                                 const device Uniforms& uniforms [[buffer(1)]],
+                                 unsigned int vid [[vertex_id]]) {
+    VertexOut vertexOut;
+    float3 position = vertex_array[vid];
+    vertexOut.position =
+    uniforms.ndcMatrix * float4(position.x, position.y, 0, 1);
+    return vertexOut;
+}
 fragment half4 wall_fragment(){
     return half4(1.0);
 }

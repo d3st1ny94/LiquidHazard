@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     var secondBuffer: MTLBuffer! = nil
     
     var GridMember: Grid?
+    var gridData: [[Float]] = [[]]
     
     var pipelineState: MTLRenderPipelineState! = nil
     var pipelineWallState: MTLRenderPipelineState! = nil
@@ -42,22 +43,19 @@ class ViewController: UIViewController {
     let screenWidth = Float(screenSize.width)
     let screenHeight = Float(screenSize.height)
     
-    LiquidFun.createParticleBoxForSystem(particleSystem, position: Vector2D(x: screenWidth * 0.5 / ptmRatio, y: screenHeight * 0.5 / ptmRatio), size: Size2D(width: 50 / ptmRatio, height: 50 / ptmRatio))
+    LiquidFun.createParticleBoxForSystem(particleSystem, position: Vector2D(x: screenWidth * 0.5 / ptmRatio, y: screenHeight * 0.5 / ptmRatio), size: Size2D(width: 200 / ptmRatio, height: 200 / ptmRatio))
     
     LiquidFun.createEdgeBoxWithOrigin(Vector2D(x: 0, y: 0),
         size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
     
-    GridMember = Grid(NumberOfCols: 16, NumberOfRows: 16, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
-    
+    GridMember = Grid(NumberOfCols: 18, NumberOfRows: 12, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
+    /*
      LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
      destination: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
  
-    
+    */
     createMetalLayer()
-    let vData:[Float] = [-1.0, -1.0, 0.0,
-                        1.0, 1.0, 0.0]
-    let vSize = vData.count * sizeofValue(vData[0])
-    secondBuffer = device?.newBufferWithBytes(vData, length: vSize, options: [])
+    gridData = (GridMember?.getVertexData())!
     refreshVertexBuffer()
 
     refreshUniformBuffer()
@@ -79,7 +77,11 @@ class ViewController: UIViewController {
             }
     })
   }
-
+    func yodatime(vData: [Float]) -> MTLBuffer {
+        let vSize = vData.count * sizeofValue(vData[0])
+        let ret:MTLBuffer? = device?.newBufferWithBytes(vData, length: vSize, options: [])
+        return ret!
+    }
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
@@ -219,10 +221,13 @@ class ViewController: UIViewController {
             renderEncoder.setRenderPipelineState(pipelineState)
             renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
             renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, atIndex: 1)
-            renderEncoder.setVertexBuffer(secondBuffer, offset: 0, atIndex: 2)
             renderEncoder.drawPrimitives(.Point, vertexStart: 0, vertexCount: particleCount, instanceCount: 1)
             renderEncoder.setRenderPipelineState(pipelineWallState)
-            renderEncoder.drawPrimitives(.Line, vertexStart: 0, vertexCount: 2)
+            for i in 1...gridData.count{
+                secondBuffer = yodatime(gridData[i-1])
+                renderEncoder.setVertexBuffer(secondBuffer, offset: 0, atIndex: 2)
+                renderEncoder.drawPrimitives(.LineStrip, vertexStart: 0, vertexCount: 4)
+            }
             renderEncoder.endEncoding()
             
             
@@ -230,7 +235,7 @@ class ViewController: UIViewController {
             commandBuffer.commit()
         }
     }
-    
+    /*
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             let touchLocation = touch.locationInView(view)
@@ -241,6 +246,6 @@ class ViewController: UIViewController {
         }
         super.touchesBegan(touches, withEvent:event)
     }
-    
+    */
 }
 
