@@ -25,8 +25,9 @@ static b2World *world;
     // create edge
     b2PolygonShape shape;
     shape.SetAsBox(size.width, size.height);
-    body->CreateFixture(&shape, 0);
-    
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &shape;
+    body->CreateFixture(&fixtureDef);
     //return body
     return body;
 }

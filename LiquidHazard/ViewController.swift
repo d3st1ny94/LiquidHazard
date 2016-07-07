@@ -49,6 +49,7 @@ class ViewController: UIViewController {
         size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
     
     GridMember = Grid(NumberOfCols: 18, NumberOfRows: 12, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
+    LiquidFun.createGoalWithSizeAndOrigin(Size2D(width: 100 / ptmRatio, height: 100 / ptmRatio), origin: Vector2D(x: 0,y: 0))
     /*
      LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
      destination: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
