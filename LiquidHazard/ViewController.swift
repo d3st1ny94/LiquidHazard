@@ -19,17 +19,18 @@ class ViewController: UIViewController {
     let motionManager: CMMotionManager = CMMotionManager()
     var device: MTLDevice! = nil
     var metalLayer: CAMetalLayer! = nil
-    
+    var vertexData:[Float] = []
     var particleCount: Int = 0
     var vertexBuffer: MTLBuffer! = nil
     var secondBuffer: MTLBuffer! = nil
     
     var GridMember: Grid?
     var gridData: [[Float]] = [[]]
-    
+    var pipelineGoalState: MTLRenderPipelineState! = nil
     var pipelineState: MTLRenderPipelineState! = nil
     var pipelineWallState: MTLRenderPipelineState! = nil
     var commandQueue: MTLCommandQueue! = nil
+    var goalBuffer: MTLBuffer! = nil
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -50,6 +51,11 @@ class ViewController: UIViewController {
     
     GridMember = Grid(NumberOfCols: 18, NumberOfRows: 12, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
     LiquidFun.createGoalWithSizeAndOrigin(Size2D(width: 100 / ptmRatio, height: 100 / ptmRatio), origin: Vector2D(x: 0,y: 0))
+     vertexData = [
+        100.0, 100.0, 0.0,
+        100.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 100.0, 0.0]
     /*
      LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
      destination: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
@@ -186,15 +192,26 @@ class ViewController: UIViewController {
         fragmentProgram = defaultLibrary!.newFunctionWithName("wall_fragment")
         vertexProgram = defaultLibrary!.newFunctionWithName("basic_vertex")
         
-        // 2
         let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
         pipelineStateDescriptor.vertexFunction = vertexProgram
         pipelineStateDescriptor.fragmentFunction = fragmentProgram
         pipelineStateDescriptor.colorAttachments[0].pixelFormat = .BGRA8Unorm
         
-        // 3
         do{
             pipelineWallState = try device.newRenderPipelineStateWithDescriptor(pipelineStateDescriptor)
+        } catch {
+            
+        }
+        fragmentProgram = defaultLibrary!.newFunctionWithName("goal_fragment")
+        vertexProgram = defaultLibrary!.newFunctionWithName("basic_vertex")
+        
+        let pipelineStateDescriptor2 = MTLRenderPipelineDescriptor()
+        pipelineStateDescriptor2.vertexFunction = vertexProgram
+        pipelineStateDescriptor2.fragmentFunction = fragmentProgram
+        pipelineStateDescriptor2.colorAttachments[0].pixelFormat = .BGRA8Unorm
+        
+        do{
+            pipelineGoalState = try device.newRenderPipelineStateWithDescriptor(pipelineStateDescriptor2)
         } catch {
             
         }
@@ -222,13 +239,19 @@ class ViewController: UIViewController {
             renderEncoder.setRenderPipelineState(pipelineState)
             renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
             renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, atIndex: 1)
+            if particleCount > 0 {
             renderEncoder.drawPrimitives(.Point, vertexStart: 0, vertexCount: particleCount, instanceCount: 1)
+            }
             renderEncoder.setRenderPipelineState(pipelineWallState)
             for i in 1...gridData.count{
                 secondBuffer = yodatime(gridData[i-1])
                 renderEncoder.setVertexBuffer(secondBuffer, offset: 0, atIndex: 2)
                 renderEncoder.drawPrimitives(.LineStrip, vertexStart: 0, vertexCount: 4)
             }
+            renderEncoder.setRenderPipelineState(pipelineGoalState)
+            goalBuffer = yodatime(vertexData)
+            renderEncoder.setVertexBuffer(goalBuffer, offset: 0, atIndex: 2)
+            renderEncoder.drawPrimitives(.TriangleStrip, vertexStart: 0, vertexCount: 4)
             renderEncoder.endEncoding()
             
             
@@ -236,7 +259,6 @@ class ViewController: UIViewController {
             commandBuffer.commit()
         }
     }
-    /*
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             let touchLocation = touch.locationInView(view)
@@ -247,6 +269,5 @@ class ViewController: UIViewController {
         }
         super.touchesBegan(touches, withEvent:event)
     }
-    */
 }
 

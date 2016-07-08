@@ -44,6 +44,9 @@ vertex VertexOut basic_vertex(const device packed_float3* vertex_array [[buffer(
     uniforms.ndcMatrix * float4(position.x, position.y, 0, 1);
     return vertexOut;
 }
+fragment half4 goal_fragment(){
+    return half4(0.0, 1.0, 0.0, .01);
+}
 fragment half4 wall_fragment(){
     return half4(1.0);
 }

@@ -8,8 +8,10 @@
 
 #import "LiquidFun.h"
 #import "Box2D.h"
+#import "Box2D/Collision/CollisionCallback.hpp"
 
 static b2World *world;
+CollisionCallback *contactListener;
 
 @implementation LiquidFun
 
@@ -27,7 +29,11 @@ static b2World *world;
     shape.SetAsBox(size.width, size.height);
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
+    char *usrdata = new char('w');
+    fixtureDef.userData = usrdata;
     body->CreateFixture(&fixtureDef);
+    contactListener = new CollisionCallback();
+    world->SetContactListener(contactListener);
     //return body
     return body;
 }
@@ -53,7 +59,7 @@ positionIterations:(int)positionIterations {
   shape.SetAsBox(size.width * 0.5f, size.height * 0.5f);
   
   b2ParticleGroupDef particleGroupDef;
-  particleGroupDef.flags = b2_waterParticle;
+  particleGroupDef.flags = b2_waterParticle | b2_fixtureContactListenerParticle;
   particleGroupDef.position.Set(position.x, position.y);
   particleGroupDef.shape = &shape;
   

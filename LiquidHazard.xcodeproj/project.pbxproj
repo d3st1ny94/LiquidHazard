@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A71EE06B1D2C3A7D002934A3 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EE0691D2C3A7D002934A3 /* Grid.swift */; };
 		A71EE06C1D2C3A7D002934A3 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71EE06A1D2C3A7D002934A3 /* Node.swift */; };
+		A79EACBA1D2F679C00FBB347 /* CollisionCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A79EACB81D2F679C00FBB347 /* CollisionCallback.cpp */; };
 		A7D8F7D91D1DB30F001BD2C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D8F7031D1DB30F001BD2C7 /* AppDelegate.swift */; };
 		A7D8F7DA1D1DB30F001BD2C7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F7041D1DB30F001BD2C7 /* LaunchScreen.xib */; };
 		A7D8F7DB1D1DB30F001BD2C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7D8F7061D1DB30F001BD2C7 /* Main.storyboard */; };
@@ -75,6 +76,8 @@
 /* Begin PBXFileReference section */
 		A71EE0691D2C3A7D002934A3 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		A71EE06A1D2C3A7D002934A3 /* Node.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		A79EACB81D2F679C00FBB347 /* CollisionCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionCallback.cpp; sourceTree = "<group>"; };
+		A79EACB91D2F679C00FBB347 /* CollisionCallback.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollisionCallback.hpp; sourceTree = "<group>"; };
 		A7D8F7031D1DB30F001BD2C7 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7D8F7051D1DB30F001BD2C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		A7D8F7071D1DB30F001BD2C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -258,6 +261,8 @@
 			isa = PBXGroup;
 			children = (
 				A7D8F70F1D1DB30F001BD2C7 /* b2BroadPhase.cpp */,
+				A79EACB81D2F679C00FBB347 /* CollisionCallback.cpp */,
+				A79EACB91D2F679C00FBB347 /* CollisionCallback.hpp */,
 				A7D8F7101D1DB30F001BD2C7 /* b2BroadPhase.h */,
 				A7D8F7111D1DB30F001BD2C7 /* b2CollideCircle.cpp */,
 				A7D8F7121D1DB30F001BD2C7 /* b2CollideEdge.cpp */,
@@ -561,6 +566,7 @@
 				A7D8F84F1D1DB30F001BD2C7 /* b2RevoluteJoint.cpp in Sources */,
 				A7D8F85F1D1DB30F001BD2C7 /* ViewController.swift in Sources */,
 				A7D8F83B1D1DB30F001BD2C7 /* b2Island.cpp in Sources */,
+				A79EACBA1D2F679C00FBB347 /* CollisionCallback.cpp in Sources */,
 				A7D8F8441D1DB30F001BD2C7 /* b2EdgeAndPolygonContact.cpp in Sources */,
 				A7D8F7F21D1DB30F001BD2C7 /* b2Stat.cpp in Sources */,
 				A7D8F8511D1DB30F001BD2C7 /* b2WeldJoint.cpp in Sources */,
