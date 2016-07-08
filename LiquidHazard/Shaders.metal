@@ -35,14 +35,13 @@ vertex VertexOut particle_vertex(const device packed_float2* vertex_array [[buff
 fragment half4 basic_fragment() {
     return half4(0.0, 0.0, 1.0, 1.0);
 }
-vertex VertexOut basic_vertex(const device packed_float3* vertex_array [[buffer(2)]],
+vertex float4 basic_vertex(const device packed_float3* vertex_array [[buffer(2)]],
                                  const device Uniforms& uniforms [[buffer(1)]],
                                  unsigned int vid [[vertex_id]]) {
-    VertexOut vertexOut;
     float3 position = vertex_array[vid];
-    vertexOut.position =
+    float4 ret =
     uniforms.ndcMatrix * float4(position.x, position.y, 0, 1);
-    return vertexOut;
+    return ret;
 }
 fragment half4 goal_fragment(){
     return half4(0.0, 1.0, 0.0, .01);

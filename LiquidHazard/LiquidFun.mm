@@ -18,7 +18,14 @@ CollisionCallback *contactListener;
 + (void)createWorldWithGravity:(Vector2D)gravity {
   world = new b2World(b2Vec2(gravity.x, gravity.y));
 }
-+ (void *)createGoalWithSizeAndOrigin:(Size2D)size origin:(Vector2D)origin{
++ (void)resetWorldWithGravity:(Vector2D)gravity{
+    if(world)
+    {
+        delete world;
+    }
+    world = new b2World(b2Vec2(gravity.x, gravity.y));
+}
++ (void *)createBoxObstacleWithSizeAndOrigin:(Size2D)size origin:(Vector2D)origin{
     // create the body
     b2BodyDef bodyDef;
     bodyDef.position.Set(origin.x, origin.y);
@@ -29,13 +36,32 @@ CollisionCallback *contactListener;
     shape.SetAsBox(size.width, size.height);
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
+    body->CreateFixture(&fixtureDef);
+    //return body //returning in case we wana use it further
+    return body;
+}
++ (void *)createGoalWithSizeAndOrigin:(Size2D)size origin:(Vector2D)origin{
+    // create the body
+    b2BodyDef bodyDef;
+    bodyDef.position.Set(origin.x, origin.y);
+    b2Body *body = world->CreateBody(&bodyDef);
+    // create edge
+    b2PolygonShape shape;
+    shape.SetAsBox(size.width, size.height);
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &shape;
     char *usrdata = new char('w');
     fixtureDef.userData = usrdata;
     body->CreateFixture(&fixtureDef);
     contactListener = new CollisionCallback();
+    contactListener -> BallIn = 0;
     world->SetContactListener(contactListener);
-    //return body
+    //return body //returning in case we wana use it further
     return body;
+}
++(int) getBallIn{
+    int ret = contactListener->BallIn;
+    return ret;
 }
 + (void *)createParticleSystemWithRadius:(float)radius dampingStrength:(float)dampingStrength gravityScale:(float)gravityScale density:(float)density {
   b2ParticleSystemDef particleSystemDef;
@@ -59,7 +85,7 @@ positionIterations:(int)positionIterations {
   shape.SetAsBox(size.width * 0.5f, size.height * 0.5f);
   
   b2ParticleGroupDef particleGroupDef;
-  particleGroupDef.flags = b2_waterParticle | b2_fixtureContactListenerParticle;
+  particleGroupDef.flags = b2_fixtureContactListenerParticle | b2_waterParticle;
   particleGroupDef.position.Set(position.x, position.y);
   particleGroupDef.shape = &shape;
   

@@ -16,5 +16,10 @@ class CollisionCallback : public b2ContactListener {
                               b2ParticleBodyContact* particleBodyContact);
     virtual void EndContact(b2Fixture* fixture,
                             b2ParticleSystem* particleSystem, int32 index);
+public:
+    int BallIn;
+    inline CollisionCallback(){
+        BallIn = 0;
+    }
 };
 #endif /* CollisionCallback_hpp */

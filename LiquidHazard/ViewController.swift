@@ -12,8 +12,8 @@ import CoreMotion
 class ViewController: UIViewController {
   
   let gravity: Float = 9.80665
-  let ptmRatio: Float = 64.0
-  let particleRadius: Float = 5
+  let ptmRatio: Float = 32
+  let particleRadius: Float = 4
   var particleSystem: UnsafeMutablePointer<Void>!
     var uniformBuffer: MTLBuffer! = nil
     let motionManager: CMMotionManager = CMMotionManager()
@@ -31,31 +31,11 @@ class ViewController: UIViewController {
     var pipelineWallState: MTLRenderPipelineState! = nil
     var commandQueue: MTLCommandQueue! = nil
     var goalBuffer: MTLBuffer! = nil
-  
+    var StarterNumber: Int = 0
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    LiquidFun.createWorldWithGravity(Vector2D(x: 0, y: -gravity))
-    particleSystem = LiquidFun.createParticleSystemWithRadius(particleRadius / ptmRatio, dampingStrength: 0.2, gravityScale: 1, density: 1.2)
-    
-    LiquidFun.setParticleLimitForSystem(particleSystem, maxParticles: 1500)
-    
-    let screenSize: CGSize = UIScreen.mainScreen().bounds.size
-    let screenWidth = Float(screenSize.width)
-    let screenHeight = Float(screenSize.height)
-    
-    LiquidFun.createParticleBoxForSystem(particleSystem, position: Vector2D(x: screenWidth * 0.5 / ptmRatio, y: screenHeight * 0.5 / ptmRatio), size: Size2D(width: 200 / ptmRatio, height: 200 / ptmRatio))
-    
-    LiquidFun.createEdgeBoxWithOrigin(Vector2D(x: 0, y: 0),
-        size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
-    
-    GridMember = Grid(NumberOfCols: 18, NumberOfRows: 12, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
-    LiquidFun.createGoalWithSizeAndOrigin(Size2D(width: 100 / ptmRatio, height: 100 / ptmRatio), origin: Vector2D(x: 0,y: 0))
-     vertexData = [
-        100.0, 100.0, 0.0,
-        100.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        0.0, 100.0, 0.0]
+    resetGame()
     /*
      LiquidFun.createEdgeWithOrigin(Vector2D(x: 0, y: 0),
      destination: Vector2D(x: screenWidth / ptmRatio, y: screenHeight / ptmRatio))
@@ -84,6 +64,30 @@ class ViewController: UIViewController {
             }
     })
   }
+    func resetGame(){
+        LiquidFun.resetWorldWithGravity(Vector2D(x: 0, y: -gravity))
+        particleSystem = LiquidFun.createParticleSystemWithRadius(particleRadius / ptmRatio, dampingStrength: 0.2, gravityScale: 1, density: 1.2)
+        
+        LiquidFun.setParticleLimitForSystem(particleSystem, maxParticles: 1500)
+        
+        let screenSize: CGSize = UIScreen.mainScreen().bounds.size
+        let screenWidth = Float(screenSize.width)
+        let screenHeight = Float(screenSize.height)
+        
+        LiquidFun.createParticleBoxForSystem(particleSystem, position: Vector2D(x: screenWidth * 0.5 / ptmRatio, y: screenHeight * 0.5 / ptmRatio), size: Size2D(width: 100 / ptmRatio, height: 100 / ptmRatio))
+        //count our particles for goal
+        StarterNumber = Int(LiquidFun.particleCountForSystem(particleSystem))
+        LiquidFun.createEdgeBoxWithOrigin(Vector2D(x: 0, y: 0),
+                                          size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
+        
+        GridMember = Grid(NumberOfCols: 18, NumberOfRows: 12, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
+        LiquidFun.createGoalWithSizeAndOrigin(Size2D(width: 200 / ptmRatio, height: 200 / ptmRatio), origin: Vector2D(x: 0,y: 0))
+        vertexData = [
+            0.0, 0.0, 0.0,
+            0, 200, 0.0,
+            200, 00, 0.0,
+            200.0, 200.0, 0.0]
+    }
     func yodatime(vData: [Float]) -> MTLBuffer {
         let vSize = vData.count * sizeofValue(vData[0])
         let ret:MTLBuffer? = device?.newBufferWithBytes(vData, length: vSize, options: [])
@@ -96,7 +100,7 @@ class ViewController: UIViewController {
 
     func update(displayLink:CADisplayLink) {
         autoreleasepool {
-            LiquidFun.worldStep(displayLink.duration, velocityIterations: 8, positionIterations: 3)
+            LiquidFun.worldStep(displayLink.duration, velocityIterations: 8, positionIterations: 5)
             self.refreshVertexBuffer()
             self.render()
         }
@@ -221,7 +225,17 @@ class ViewController: UIViewController {
         // 3
         commandQueue = device.newCommandQueue()
     }
-    
+    func youBallin() -> Bool{
+        let ballsin = Int(LiquidFun.getBallIn());
+        if ballsin == StarterNumber - 1
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
     func render() {
         
         if let drawable = metalLayer.nextDrawable()    {
@@ -239,8 +253,20 @@ class ViewController: UIViewController {
             renderEncoder.setRenderPipelineState(pipelineState)
             renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
             renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, atIndex: 1)
-            if particleCount > 0 {
+            if particleCount > 1 {
             renderEncoder.drawPrimitives(.Point, vertexStart: 0, vertexCount: particleCount, instanceCount: 1)
+            }
+            else
+            {
+                if youBallin()
+                {
+                    //win
+                    resetGame();
+                }
+                else
+                {
+                    //lose
+                }
             }
             renderEncoder.setRenderPipelineState(pipelineWallState)
             for i in 1...gridData.count{
@@ -260,13 +286,15 @@ class ViewController: UIViewController {
         }
     }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        for touch in touches {
+       // for touch in touches {
+        /*
             let touchLocation = touch.locationInView(view)
             let position = Vector2D(x: Float(touchLocation.x) / ptmRatio,
                 y: Float(view.bounds.height - touchLocation.y) / ptmRatio)
             let size = Size2D(width: 100 / ptmRatio, height: 100 / ptmRatio)
-            LiquidFun.createParticleBoxForSystem(particleSystem, position: position, size: size)
-        }
+            LiquidFun.createParticleBoxForSystem(particleSystem, position: position, size: size)*/
+            
+      //  }
         super.touchesBegan(touches, withEvent:event)
     }
 }

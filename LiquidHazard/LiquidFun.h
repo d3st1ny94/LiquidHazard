@@ -24,7 +24,8 @@ typedef struct Size2D {
 #endif
 
 @interface LiquidFun : NSObject
-
++ (int) getBallIn;
++ (void)resetWorldWithGravity:(Vector2D)gravity;
 + (void *)createGoalWithSizeAndOrigin:(Size2D)size origin:(Vector2D)origin;
 + (void)createWorldWithGravity:(Vector2D)gravity;
 + (void *)createParticleSystemWithRadius:(float)radius dampingStrength:(float)dampingStrength gravityScale:(float)gravityScale density:(float)density;
