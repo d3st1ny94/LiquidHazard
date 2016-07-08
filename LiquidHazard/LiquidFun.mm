@@ -44,6 +44,7 @@ CollisionCallback *contactListener;
     // create the body
     b2BodyDef bodyDef;
     bodyDef.position.Set(origin.x, origin.y);
+    bodyDef.type = b2_staticBody;
     b2Body *body = world->CreateBody(&bodyDef);
     // create edge
     b2PolygonShape shape;
@@ -85,7 +86,8 @@ positionIterations:(int)positionIterations {
   shape.SetAsBox(size.width * 0.5f, size.height * 0.5f);
   
   b2ParticleGroupDef particleGroupDef;
-  particleGroupDef.flags = b2_waterParticle | b2_fixtureContactListenerParticle;
+  particleGroupDef.flags = b2_waterParticle | b2_fixtureContactListenerParticle
+    ;
   particleGroupDef.position.Set(position.x, position.y);
   particleGroupDef.shape = &shape;
   

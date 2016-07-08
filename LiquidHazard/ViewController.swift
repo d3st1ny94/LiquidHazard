@@ -81,12 +81,12 @@ class ViewController: UIViewController {
                                           size: Size2D(width: screenWidth / ptmRatio, height: screenHeight / ptmRatio))
         
         GridMember = Grid(NumberOfCols: 18, NumberOfRows: 12, screenSize: Size2D(width : screenWidth, height: screenHeight), ptmRatio: ptmRatio)
-        LiquidFun.createGoalWithSizeAndOrigin(Size2D(width: 200 / ptmRatio, height: 200 / ptmRatio), origin: Vector2D(x: 0,y: 0))
+        LiquidFun.createGoalWithSizeAndOrigin(Size2D(width: 100 / ptmRatio, height: 100 / ptmRatio), origin: Vector2D(x: 0,y: 0))
         vertexData = [
             0.0, 0.0, 0.0,
-            0, 200, 0.0,
-            200, 00, 0.0,
-            200.0, 200.0, 0.0]
+            0, 100, 0.0,
+            100, 00, 0.0,
+            100, 100, 0.0]
     }
     func yodatime(vData: [Float]) -> MTLBuffer {
         let vSize = vData.count * sizeofValue(vData[0])
