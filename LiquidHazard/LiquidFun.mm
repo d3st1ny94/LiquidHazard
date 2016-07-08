@@ -51,9 +51,12 @@ CollisionCallback *contactListener;
     shape.SetAsBox(size.width, size.height);
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
-    char *usrdata = new char('w');
-    fixtureDef.userData = usrdata;
+    char usrdata = 'w';
+    fixtureDef.userData = &usrdata;
     body->CreateFixture(&fixtureDef);
+    if(contactListener) {
+        delete contactListener;
+    }
     contactListener = new CollisionCallback();
     contactListener -> BallIn = 0;
     world->SetContactListener(contactListener);
