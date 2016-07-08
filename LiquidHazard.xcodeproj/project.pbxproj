@@ -478,7 +478,7 @@
 				TargetAttributes = {
 					D1D571B91A188B3500ED048A = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 7LMK7ZCDXQ;
+						DevelopmentTeam = BQE2QL54V2;
 					};
 				};
 			};
@@ -697,7 +697,7 @@
 				);
 				INFOPLIST_FILE = LiquidHazard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.2legit2quit.LiquidHazard;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.2legit2quit.LiquidHazard-J";
 				PRODUCT_NAME = LiquidHazard;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LiquidHazard/Bridging-Header.h";
@@ -718,7 +718,7 @@
 				);
 				INFOPLIST_FILE = LiquidHazard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.2legit2quit.LiquidHazard;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.2legit2quit.LiquidHazard-J";
 				PRODUCT_NAME = LiquidHazard;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LiquidHazard/Bridging-Header.h";

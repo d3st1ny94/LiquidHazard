@@ -18,6 +18,7 @@ class Node  {
     var gridx : Int
     var gridy : Int
     var NodeSize : Size2D
+    var Empty: Bool
     
     
     init(gridx : Int, gridy : Int, NodeSize : Size2D) {
@@ -25,6 +26,7 @@ class Node  {
         self.gridx = gridx
         self.gridy = gridy
         self.NodeSize = NodeSize
+        Empty = false
         
         
     }
