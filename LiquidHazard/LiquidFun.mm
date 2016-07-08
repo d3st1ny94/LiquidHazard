@@ -85,7 +85,7 @@ positionIterations:(int)positionIterations {
   shape.SetAsBox(size.width * 0.5f, size.height * 0.5f);
   
   b2ParticleGroupDef particleGroupDef;
-  particleGroupDef.flags = b2_fixtureContactListenerParticle | b2_waterParticle;
+  particleGroupDef.flags = b2_waterParticle | b2_fixtureContactListenerParticle;
   particleGroupDef.position.Set(position.x, position.y);
   particleGroupDef.shape = &shape;
   
