@@ -12,7 +12,7 @@
 
 static b2World *world;
 CollisionCallback *contactListener;
-
+char * usrDataPtr;
 @implementation LiquidFun
 
 + (void)createWorldWithGravity:(Vector2D)gravity {
@@ -21,6 +21,7 @@ CollisionCallback *contactListener;
 + (void)resetWorldWithGravity:(Vector2D)gravity{
     if(world)
     {
+        delete usrDataPtr;
         delete world;
     }
     world = new b2World(b2Vec2(gravity.x, gravity.y));
@@ -51,8 +52,9 @@ CollisionCallback *contactListener;
     shape.SetAsBox(size.width, size.height);
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
-    char usrdata = 'w';
-    fixtureDef.userData = &usrdata;
+    char *usrdata = new char('w');
+    usrDataPtr = usrdata;
+    fixtureDef.userData = usrdata;
     body->CreateFixture(&fixtureDef);
     if(contactListener) {
         delete contactListener;

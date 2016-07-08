@@ -43,8 +43,25 @@ class Grid {
         NodeStart = NodeGrid[0][0]
         NodeEnd = NodeGrid[0][0]
         
-    } // end of forloop
-    
+    }
+    // end of forloop
+    func getBottomLeftObstacleArray() -> [Vector2D]{
+        var ret:[Vector2D] = []
+        for r in 1...NodeGrid.count{
+            for n in 1...NodeGrid[r].count{
+               if NodeGrid[r][n].Empty == false {
+                    let something = Vector2D(x: Float(NodeGrid[r][n].gridx) * getNodeSize().width, y: Float(NodeGrid[r][n].gridy ) * getNodeSize().height)
+                   ret.append(something)
+                }
+            }
+        }
+        return ret
+    }
+
+    func getNodeSize() -> Size2D{
+        return NodeGrid[0][0].NodeSize
+    }
+
     func getVertexData()-> [[Float]] {
         var ret = Array<Array<Float>>()
         
